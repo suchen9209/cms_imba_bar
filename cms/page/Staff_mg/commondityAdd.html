@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>增加新商品</title>
+    <title>增加新员工</title>
     <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
     <link rel="stylesheet" href="../../css/public.css" media="all" />
     <script type="text/javascript" src="https://pay.imbatv.cn/style/js/jquery-3.3.1.js"></script>
@@ -12,40 +12,35 @@
 <body>
     <div action='' method="" class="layui-form">
         <div class="layui-form-item item1">
-            <label class="layui-form-label">商品名称</label>
+            <label class="layui-form-label">用户名</label>
             <div class="layui-input-block">
-                <input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="商品名称" class="layui-input">
+                <input type="text" name="username" lay-verify="name" autocomplete="off" placeholder="用户名" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item item2">
-            <label class="layui-form-label">商品价格</label>
+            <label class="layui-form-label">密码</label>
             <div class="layui-input-block">
-                <input type="text" name="price" lay-verify="number" autocomplete="off" placeholder="商品价格" class="layui-input">
+                <input type="text" name="password" lay-verify="num" autocomplete="off" placeholder="密码" class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item item3">
-            <label class="layui-form-label">商品类型</label>
+         <div class="layui-form-item item3">
+            <label class="layui-form-label">手机</label>
             <div class="layui-input-block">
-                <select name="type" lay-filter="type" class='cc' type="select">
-                    
-                </select>
+                <input type="text" name="phone" lay-verify="phone" autocomplete="off" placeholder="手机" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item item4">
-            <label class="layui-form-label">商品状态</label>
+            <label class="layui-form-label">姓名</label>
             <div class="layui-input-block">
-                <select name="status" lay-filter="status">
-                    <option value=""></option>
-                    <option value="1" selected="">正在使用</option>
-                    <option value="0">停用</option>
-                </select>
+                <input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="姓名" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item item5">
-            <label class='layui-form-label'>商品图片</label>
-            <div class="layui-input-block"><input type="text" class="layui-input item_spc" name="img" lay-verify="img"/></div>
-            <div class="layui-input-block" style="margin-top: 20px;">
-                <input type="file" id="inputfile" name="" class="photo">
+            <label class="layui-form-label">所属角色</label>
+            <div class="layui-input-block">
+                <select name="authority" lay-filter="type" class='cc' type="select">
+                    
+                </select>
             </div>
         </div>
         <div class="layui-form-item item6">
@@ -55,42 +50,7 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-    $(document).ready(function() {
-        //响应文件添加成功事件
-        $("#inputfile").change(function() {
-            var file = $('#inputfile')[0].files[0];
-            //创建FormData对象
-            var data = new FormData();
-            data.append('upload_file', file);
-            $.ajax({
-                url: 'https://pay.imbatv.cn/upload',
-                /*去过那个php文件*/
-                type: 'POST',
-                /*提交方式*/
-                data: data,
-                cache: false,
-                contentType: false,
-                /*不可缺*/
-                processData: false,
-                /*不可缺*/
-                success: function(data) {
-                    if (data != 'error') {
-                        $("input[name=img]").val(data);
-                    } else {
-                        alert('上传出错');
-                    }
-                },
-                error: function() {
-                    alert('上传出错');
-                }
-            });
-        });
-        // 
 
-        
-    });
-    </script>
 </body>
 <script type="text/javascript" src="../../layui/layui.js"></script>
 <script>
@@ -109,12 +69,13 @@ layui.use(['form', 'layedit', 'laydate'], function() {
         }
         return null;
     }
-    var m = getQueryString("m");
+    var authority = getQueryString("authority");
+    console.log(authority);
     $.ajax({
             type: "GET",
             catch: true,
             dataType: "jsonp",
-            url: "https://pay.imbatv.cn/tool/goods/config_info",
+            url: "https://pay.imbatv.cn/tool/admin/admin_role_info",
             error: function(request) {
                 console.log(request);
             },
@@ -123,20 +84,21 @@ layui.use(['form', 'layedit', 'laydate'], function() {
                 var html = '';
                 var data = res.data;
                 html = '<option value=""></option>';
-                for (var i = 0; i < data.type_list.length; i++) {
+                for (var i = 0; i < data.role_list.length; i++) {
                     if (i == 0) {
-                       html += "<option selected='' value=" + data.type_list[i].id + ">" + data.type_list[i].name + "</option>"; 
+                       html += "<option selected='' value=" + data.role_list[i].authority + ">" + data.role_list[i].role + "</option>"; 
                     }else{
-                       html += "<option value=" + data.type_list[i].id + ">" + data.type_list[i].name + "</option>";   
+                       html += "<option value=" + data.role_list[i].authority + ">" + data.role_list[i].role + "</option>";   
                     }
                     
                 };
                 console.log(html);
                 $(".cc").html(html);
                 form.render();
-                var select = 'dd[lay-value="'+m+'"]';
-                console.log(select);
+                var select = 'dd[lay-value="'+authority+'"]';
                 $('.cc').siblings("div.layui-form-select").find('dl').find(select).click();
+                console.log(select);
+
             },
         });
     //创建一个编辑器
@@ -146,7 +108,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
     form.verify({
         name: function(value) {
             if (value.length < 1) {
-                return '商品名称不能为空';
+                return '不能为空';
             }
         },price: function(value) {
             if (value.length < 1) {
@@ -165,10 +127,9 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 
     //监听提交
     form.on('submit(demo1)', function(data) {
-
         var data =  JSON.stringify(data.field);
         var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
-        console.log(data);
+       
         $.ajax({
             type: "POST",
             catch: true,
@@ -176,7 +137,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
                 data: data,
             },
             dataType: "json",
-            url: "https://pay.imbatv.cn/tool/goods/insert",
+            url: "https://pay.imbatv.cn/tool/admin/insert",
             success: function(res) {
                 console.log(res);
                 setTimeout(function(){
@@ -195,10 +156,8 @@ layui.use(['form', 'layedit', 'laydate'], function() {
     });
 
     form.on('submit(demo2)', function(data) {
-
-        var data =  JSON.stringify(data.field);
-
-        console.log(data);
+        var newdata ={"username":data.field.username,"phone":data.field.phone,"name":data.field.name,"authority":data.field.authority}
+        var data =  JSON.stringify(newdata);
         var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
         var id = $(".btn2").attr('data-id'); 
         console.log(id);
@@ -209,7 +168,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
                 data: data,
             },
             dataType: "json",
-            url: "https://pay.imbatv.cn/tool/goods/update/"+id,
+            url: "https://pay.imbatv.cn/tool/admin/update/"+id,
             success: function(res) {
                 console.log(res);
                 setTimeout(function(){

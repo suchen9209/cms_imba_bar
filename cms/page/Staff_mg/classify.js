@@ -10,21 +10,15 @@ layui.use(['form', 'util', 'layer', 'laydate', 'table', 'laytpl', 'util'], funct
 
     var tableIns = table.render({
         elem: '#newsList',
-        url: 'https://pay.imbatv.cn/tool/goods',
-        limit: 15,
-        limits: [15, 30, 45, 60],
-        page: true,
+        url: 'https://pay.imbatv.cn/tool/good_type',
+        // limit: 15,
+        // limits: [15, 30, 45, 60],
+        page: false,
         //,…… //其他参数
         cols: [
             [
-                { field: 'id', title: 'ID', align: 'center',width:50, },
-                 {field: 'img', title: 'LOGO', width:180, align:"center",templet:function(d){
-                    return '<a href="'+d.img+'" target="_blank"><img src="'+d.img+'" height="26" /></a>';
-                }},
-                { field: 'name', title: '名称', align: 'center',width:400,},
-                { field: 'type', title: '类型', align: 'center'},
-                { field: 'price', title: '单价', align: 'center' },
-                { field: 'status', title: '状态', align: "center" },
+                { field: 'id', title: 'ID', align: 'center' },
+                { field: 'name', title: '品种', align: 'center',},
                 { title: '操作', width: 270, templet: '#newsListBar', fixed: "right", align: "center" }
             ]
         ],
@@ -44,21 +38,17 @@ layui.use(['form', 'util', 'layer', 'laydate', 'table', 'laytpl', 'util'], funct
 
 
 
-    //修改商品
+    //修改商品分类名称
     function modify(edit){
         var index = layui.layer.open({
-            title : "更改商品",
+            title : "修改商品分类名称",
             type : 2,
-            content : "commondityAdd.html?m="+edit.type_id,
+            content : "classifyAdd.html",
             success : function(layero, index){
                 var body = layui.layer.getChildFrame('body', index);
                 console.log(edit);
                 if(edit){
                     body.find(".item1 input").val(edit.name);
-                    body.find(".item2 input").val(edit.price);
-                    body.find(".item3 input").val(edit.type);
-                    body.find(".item4 input").val(edit.status);
-                    body.find(".item5 input.item_spc").val(edit.img);
                     body.find(".item6 button.btn1").attr("lay-filter","demo2");
                     body.find(".item6 button.btn2").attr("data-id",edit.id);
                     form.render();
@@ -72,16 +62,19 @@ layui.use(['form', 'util', 'layer', 'laydate', 'table', 'laytpl', 'util'], funct
         })
         layui.layer.full(index);
         //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-        // $(window).on("resize",function(){
-        //     layui.layer.full(index);
-        // })
+        $(window).on("resize",function(){
+            layui.layer.full(index);
+        })
     }
+    // $(".modify").click(function(){
+    //     modify();
+    // })
     $(window).one("resize",function(){
         $(".commondityAdd_btn").click(function(){
             var index = layui.layer.open({
-                title : "增加商品",
+                title : "增加商品分类",
                 type : 2,
-                content : "commondityAdd.html",
+                content : "classifyAdd.html",
                 success : function(layero, index){
                     setTimeout(function(){
                         layui.layer.tips('返回', '.layui-layer-setwin .layui-layer-close', {
@@ -95,9 +88,9 @@ layui.use(['form', 'util', 'layer', 'laydate', 'table', 'laytpl', 'util'], funct
 
         $(".classifyAdd_btn").click(function(){
             var index = layui.layer.open({
-                title : "增加商品",
+                title : "增加商品分类",
                 type : 2,
-                content : "commondityAdd.html",
+                content : "classifyAdd.html",
                 success : function(layero, index){
                     setTimeout(function(){
                         layui.layer.tips('返回', '.layui-layer-setwin .layui-layer-close', {
@@ -116,7 +109,7 @@ layui.use(['form', 'util', 'layer', 'laydate', 'table', 'laytpl', 'util'], funct
             data = obj.data;
         var list = data.detail;
         var order_id = obj.data.id;
-        if (layEvent === 'modify') { //修改商品
+        if (layEvent === 'modify') {
             modify(data);
         } 
     });

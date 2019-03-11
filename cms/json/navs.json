@@ -33,6 +33,7 @@
 			"href": "page/commodity_sale/commodity_sale.html",
 			"spread": false
 		},
+		
 		{
 			"title": "手机订单",
 			"icon": "&#xe634;",
@@ -74,6 +75,12 @@
 					"title": "增加商品分类",
 					"icon": "&#xe61c;",
 					"href": "page/commodity/classify.html",
+					"spread": false
+				},
+				{
+					"title": "员工管理",
+					"icon": "&#xe61c;",
+					"href": "page/Staff_mg/Staff_mg.html",
 					"spread": false
 				},
 				{

@@ -69,6 +69,16 @@ layui.use(['form', 'layedit', 'laydate'], function() {
         layedit = layui.layedit,
         laydate = layui.laydate;
         $ = layui.jquery;
+    function getQueryString(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        }
+        return null;
+    }
+    var m = getQueryString("m");
+    var n = getQueryString("n");
     $.ajax({
             type: "GET",
             catch: true,
@@ -93,6 +103,12 @@ layui.use(['form', 'layedit', 'laydate'], function() {
                 console.log(html);
                 $(".cc").html(html);
                 form.render();
+                var select1 = 'dd[lay-value="'+m+'"]';
+                var select2 = 'dd[lay-value="'+n+'"]';
+                console.log(select1);
+                console.log(select2);
+                $('.item3 select').siblings("div.layui-form-select").find('dl').find(select1).click();
+                $('.item4 select').siblings("div.layui-form-select").find('dl').find(select2).click();
             },
         });
     //创建一个编辑器

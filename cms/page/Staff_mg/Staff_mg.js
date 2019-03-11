@@ -10,21 +10,18 @@ layui.use(['form', 'util', 'layer', 'laydate', 'table', 'laytpl', 'util'], funct
 
     var tableIns = table.render({
         elem: '#newsList',
-        url: 'https://pay.imbatv.cn/tool/goods',
+        url: 'https://pay.imbatv.cn/tool/admin',
         limit: 15,
         limits: [15, 30, 45, 60],
         page: true,
         //,…… //其他参数
         cols: [
             [
-                { field: 'id', title: 'ID', align: 'center',width:50, },
-                 {field: 'img', title: 'LOGO', width:180, align:"center",templet:function(d){
-                    return '<a href="'+d.img+'" target="_blank"><img src="'+d.img+'" height="26" /></a>';
-                }},
-                { field: 'name', title: '名称', align: 'center',width:400,},
-                { field: 'type', title: '类型', align: 'center'},
-                { field: 'price', title: '单价', align: 'center' },
-                { field: 'status', title: '状态', align: "center" },
+                { field: 'id', title: 'ID', align: 'center' },
+                { field: 'username', title: '用户名', align: 'center'},
+                { field: 'phone', title: '手机', align: 'center'},
+                { field: 'name', title: '姓名', align: 'center' },
+                { field: 'role', title: '所属角色', align: "center" },
                 { title: '操作', width: 270, templet: '#newsListBar', fixed: "right", align: "center" }
             ]
         ],
@@ -44,27 +41,27 @@ layui.use(['form', 'util', 'layer', 'laydate', 'table', 'laytpl', 'util'], funct
 
 
 
-    //修改商品
+    //修改员工信息
     function modify(edit){
         var index = layui.layer.open({
-            title : "更改商品",
+            title : "修改员工信息",
             type : 2,
-            content : "commondityAdd.html?m="+edit.type_id,
+            content : "commondityAdd.html?authority="+edit.authority,
             success : function(layero, index){
                 var body = layui.layer.getChildFrame('body', index);
                 console.log(edit);
                 if(edit){
-                    body.find(".item1 input").val(edit.name);
-                    body.find(".item2 input").val(edit.price);
-                    body.find(".item3 input").val(edit.type);
-                    body.find(".item4 input").val(edit.status);
-                    body.find(".item5 input.item_spc").val(edit.img);
+                    body.find(".item1 input").val(edit.username);
+                    body.find(".item2").hide();
+                    body.find(".item3 input").val(edit.phone);
+                    body.find(".item4 input").val(edit.name);
+                    body.find(".item5 input").val(edit.role);
                     body.find(".item6 button.btn1").attr("lay-filter","demo2");
                     body.find(".item6 button.btn2").attr("data-id",edit.id);
                     form.render();
                 }
                 setTimeout(function(){
-                    layui.layer.tips('点击此处返回商品列表', '.layui-layer-setwin .layui-layer-close', {
+                    layui.layer.tips('点击此处返回员工列表', '.layui-layer-setwin .layui-layer-close', {
                         tips: 3
                     });
                 },2000)

@@ -49,12 +49,12 @@ layui.use(['form', 'util', 'layer', 'laydate', 'table', 'laytpl', 'util'], funct
 
 
 
-    //更改商品
+    //更改机器
     function modify(edit){
         var index = layui.layer.open({
-            title : "更改商品",
+            title : "更改机器",
             type : 2,
-            content : "commondityAdd.html",
+            content : "commondityAdd.html?m="+edit.type_id+"&n="+edit.status_id,
             success : function(layero, index){
                 var body = layui.layer.getChildFrame('body', index);
                 console.log(edit);
@@ -77,10 +77,7 @@ layui.use(['form', 'util', 'layer', 'laydate', 'table', 'laytpl', 'util'], funct
             }
         })
         layui.layer.full(index);
-        //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-        $(window).on("resize",function(){
-            layui.layer.full(index);
-        })
+       
     }
     $(window).one("resize",function(){
         $(".commondityAdd_btn").click(function(){
