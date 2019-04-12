@@ -119,7 +119,8 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
             // },
             success: function (result) {
                 console.log(result);       //打印服务端返回的数据(调试用)
-                alert("退出");
+                const ipcRenderer = require('electron').ipcRenderer;
+                ipcRenderer.sendSync('user-logout', 'ping')
             },
             error : function(result) {
                 alert("error异常！");
